@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Variables
     #region Movement Variables
     [Header("Movement")]
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
@@ -14,13 +15,15 @@ public class PlayerController : MonoBehaviour
     private bool isRunning = false;
     #endregion
 
-    #region DodgeVariables
+    #region Dodge Variables
     [Header("Dodge")]
     [SerializeField, Range(0f, 100f)] private float dodgeImpulse = 8f;
-    [SerializeField, Range(0f, 1f)] private float dodgeTime = .1f;
-    private bool isDodging = false;
-    private Vector2 desiredDodge;
+    [SerializeField, Range(0f, 1f)] private float dodgeTime = 0.12f;
+    [SerializeField, Range(0f, 10f)] private float dodgeCooldown = .1f;
+    private bool isDodging;
+    private Vector2 desiredDodgeVelocity;
     private float dodgeCounter;
+    private float dodgeCooldownCounter;
     #endregion
 
     #region Jump Variables
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
     #region Bool Variables Check
     private bool isFacingRight = true;
+    private bool isDodgingActive;
     #endregion
 
     #region Collisions Variables
@@ -58,14 +62,16 @@ public class PlayerController : MonoBehaviour
     private float friction;
     PhysicsMaterial2D material;
     #endregion
+    #endregion
 
     #region Unity Functions
-    void Awake()
+    void Start()
     {
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
         defaultGravityScale = 2f;
+        dodgeCooldownCounter = dodgeCooldown;
     }
 
     // Update is called once per frame
@@ -91,7 +97,10 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void MoveInput()
     {
-        direction.x = Input.GetAxisRaw("Horizontal");
+        if (!isDodging)
+        {
+            direction.x = Input.GetAxisRaw("Horizontal");
+        }
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - friction, 0f);
     }
 
@@ -110,34 +119,48 @@ public class PlayerController : MonoBehaviour
     #region Dodge
     private void DodgeInput()
     {
-        desiredDodge = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(dodgeImpulse - friction, 0f);
+        desiredDodgeVelocity = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(dodgeImpulse - friction, 0f);
     }
 
     private void Dodge()
     {
-        Debug.Log("DodgeCounter: " + dodgeCounter);
-        Debug.Log("Tecla Shift Precionada: " + Input.GetButtonDown("Fire3"));
-
-        if (Input.GetButtonDown("Fire3") && !isDodging && onGround)
+        if (Input.GetButton("Fire3") && !isDodging && onGround && dodgeCooldownCounter >= dodgeCooldown)
         {
             dodgeCounter = dodgeTime;
         }
 
-        if (dodgeCounter > 0.01f && onGround)
+        if (dodgeCounter > 0f && onGround || dodgeCounter > 0f && body.velocity.y < 0)
         {
             dodgeCounter -= Time.deltaTime;
+            dodgeCooldownCounter = 0;
             DodgeAction();
         } 
-        else if (dodgeCounter < 0.01f && onGround)
+        else if (dodgeCounter < 0f && dodgeCooldownCounter <= dodgeCooldown)
         {
             isDodging = false;
+            dodgeCooldownCounter += Time.deltaTime;
+        }
+
+        if (isDodgingActive)
+        {
+            Physics2D.IgnoreLayerCollision(9, 7, true);
+        }
+        
+        if(dodgeCooldownCounter >= dodgeTime)
+        {
+            Physics2D.IgnoreLayerCollision(9, 7, false);
+            isDodgingActive = false;
         }
     }
 
     private void DodgeAction()
     {
         isDodging = true;
-        velocity.x = Mathf.MoveTowards(velocity.x, desiredDodge.x, dodgeImpulse);
+        velocity.x = Mathf.MoveTowards(velocity.x, desiredDodgeVelocity.x, dodgeImpulse);
+        if(body.velocity.y >= 0f)
+        {
+            body.gravityScale = 0f;
+        }
     }
     #endregion
 
@@ -169,7 +192,7 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jumpBufferCounter > 0)
+        if (jumpBufferCounter > 0 && !isDodging)
         {
             JumpAction();
         }
@@ -233,6 +256,7 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("onGround", onGround);
+        anim.SetBool("isDodging", isDodging);
         anim.SetFloat("yVelocity", body.velocity.y);
     }
     #endregion
@@ -243,7 +267,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector2 normal = collision.GetContact(i).normal;
-            if (normal.y >= 0.9f)
+            if (normal.y >= 0.9f || (normal.y >= 0.9f && normal.x >= 0.9f))
             {
                 onGround = true;
             }
@@ -265,12 +289,17 @@ public class PlayerController : MonoBehaviour
     {
         EvaluateCollision(collision);
         RetriveFriction(collision);
+        if(collision.gameObject.layer == 9 && isDodging)
+        {
+            isDodgingActive = true;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetriveFriction(collision);
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
