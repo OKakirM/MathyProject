@@ -44,7 +44,10 @@ public class PlayerController : MonoBehaviour
     #region Damage
     [Header("Damage")]
     [SerializeField, Range(1, 10)] private float takeDamageImpulse = 2;
+    [SerializeField, Range(1, 10)] private float invencibleTime = 2;
     private Vector2 desiredDamageImpulse;
+    private bool isTakedDamage = false;
+    private float invencibleCounter;
     #endregion
 
     #region Direction & Velocity Variables
@@ -88,6 +91,7 @@ public class PlayerController : MonoBehaviour
         DodgeInput();
         Flip();
         Animation();
+        Invencible();
     }
 
     private void FixedUpdate()
@@ -239,11 +243,27 @@ public class PlayerController : MonoBehaviour
     public void TakingDamage(int damage)
     {
         desiredDamageImpulse = new Vector2(isFacingRight ? -1 : 1, 0f) * Mathf.Max(takeDamageImpulse, 0f);
-        if (!isDodging)
+        if (!isDodging && !isTakedDamage)
         {
             velocity = body.velocity;
             velocity.x = Mathf.MoveTowards(velocity.x, desiredDamageImpulse.x, takeDamageImpulse);
             body.velocity = velocity;
+            isTakedDamage = true;
+        }
+    }
+
+    private void Invencible()
+    {
+        if(isTakedDamage && invencibleCounter <= invencibleTime)
+        {
+            Physics2D.IgnoreLayerCollision(9, 7, true);
+            invencibleCounter += Time.deltaTime;
+        } 
+        else if(invencibleCounter >= invencibleTime)
+        {
+            Physics2D.IgnoreLayerCollision(9, 7, false);
+            invencibleCounter = 0;
+            isTakedDamage = false;
         }
     }
 
@@ -277,6 +297,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("onGround", onGround);
         anim.SetBool("isDodging", isDodging);
+        anim.SetFloat("isTakedDamage", invencibleCounter);
         anim.SetFloat("yVelocity", body.velocity.y);
     }
     #endregion

@@ -49,6 +49,7 @@ public class SlimeAI : MonoBehaviour
 
     private void EnemyMovement()
     {
+        body.velocity = Vector2.zero;
         if(playerDistance <= distanceToReach)
         {
             //body.velocity = new Vector2(direction.x * enemyVelocity, body.velocity.y);
