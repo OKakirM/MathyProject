@@ -41,6 +41,12 @@ public class PlayerController : MonoBehaviour
     private bool desiredJump;
     #endregion
 
+    #region Damage
+    [Header("Damage")]
+    [SerializeField, Range(1, 10)] private float takeDamageImpulse = 2;
+    private Vector2 desiredDamageImpulse;
+    #endregion
+
     #region Direction & Velocity Variables
     private Vector2 direction;
     private Vector2 desiredVelocity;
@@ -227,6 +233,20 @@ public class PlayerController : MonoBehaviour
             velocity.y += jumpSpeed;
         }
     }
+    #endregion
+
+    #region Damage
+    public void TakingDamage(int damage)
+    {
+        desiredDamageImpulse = new Vector2(isFacingRight ? -1 : 1, 0f) * Mathf.Max(takeDamageImpulse, 0f);
+        if (!isDodging)
+        {
+            velocity = body.velocity;
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredDamageImpulse.x, takeDamageImpulse);
+            body.velocity = velocity;
+        }
+    }
+
     #endregion
 
     #region Animations

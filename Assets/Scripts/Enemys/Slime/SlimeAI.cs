@@ -9,14 +9,15 @@ public class SlimeAI : MonoBehaviour
     [SerializeField] private float enemyVelocity = 2f;
     [SerializeField] private float enemyJumpHeight = 2f;
     [SerializeField] private float enemyAttackDelay = 3f;
+    [SerializeField] private float enemyPause = 3f;
 
     private Rigidbody2D body;
     private Vector2 direction;
     private float playerDistance;
     private float enemyDelayCounter;
+    private float enemyPauseCounter;
     private bool isFacingRight = true;
-    private bool preperingAttack;
-    private bool isAttacking;
+    private bool canJump;
 
     private bool onGround;
     private float friction;
@@ -50,31 +51,7 @@ public class SlimeAI : MonoBehaviour
     {
         if(playerDistance <= distanceToReach)
         {
-            
-            if (playerDistance >= 1f && !preperingAttack)
-            {
-                body.velocity = new Vector2(direction.x * enemyVelocity, body.velocity.y);
-            } 
-            else
-            {
-                preperingAttack = true;
-                enemyDelayCounter += Time.deltaTime;
-                if (enemyDelayCounter >= enemyAttackDelay)
-                {
-                    preperingAttack = false;
-                    isAttacking = true;
-                    enemyDelayCounter = 0f;
-                    body.AddForce(Vector2.up * enemyJumpHeight * direction, ForceMode2D.Impulse);
-                }
-                else if(!isAttacking)
-                {
-                    body.velocity = Vector2.zero;
-                }
-            }
-        } 
-        else
-        {
-            body.velocity = Vector2.zero;
+            //body.velocity = new Vector2(direction.x * enemyVelocity, body.velocity.y);
         }
     }
 
