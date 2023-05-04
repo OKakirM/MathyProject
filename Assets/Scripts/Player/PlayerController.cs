@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     #region Damage
     [Header("Damage")]
-    [SerializeField, Range(1, 10)] private float takeDamageImpulse = 2;
+    [SerializeField, Range(1, 200)] private float takeDamageImpulse = 10;
     [SerializeField, Range(1, 10)] private float invencibleTime = 2;
     private Vector2 desiredDamageImpulse;
     private bool isTakedDamage = false;
@@ -91,7 +91,6 @@ public class PlayerController : MonoBehaviour
         DodgeInput();
         Flip();
         Animation();
-        Invencible();
     }
 
     private void FixedUpdate()
@@ -100,6 +99,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         Dodge();
+        Invencible();
         body.velocity = velocity;
     }
     #endregion

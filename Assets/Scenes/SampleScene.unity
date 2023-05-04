@@ -3044,7 +3044,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  playerInvencibleTime: 3
 --- !u!61 &1485604373
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3129,10 +3128,10 @@ GameObject:
   - component: {fileID: 2077147876}
   - component: {fileID: 2077147874}
   - component: {fileID: 2077147883}
+  - component: {fileID: 2077147884}
   - component: {fileID: 2077147873}
   - component: {fileID: 2077147880}
   - component: {fileID: 2077147882}
-  - component: {fileID: 2077147884}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -3389,6 +3388,7 @@ MonoBehaviour:
   coyoteTime: 0.12
   jumpBufferTime: 0.12
   takeDamageImpulse: 10
+  invencibleTime: 2
 --- !u!70 &2077147883
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
