@@ -5,6 +5,23 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
+
+    #region Health Variables
+    [Header("Health")]
+    [SerializeField, Range(1, 100)] private int playerHealth = 20;
+    [SerializeField] private HealthBar healthBar;
+    public int currentHealth;
+    #endregion
+
+    #region Damage Variables
+    [Header("Damage")]
+    [SerializeField, Range(1, 200)] private float takeDamageImpulse = 10;
+    [SerializeField, Range(1, 10)] private float invencibleTime = 2;
+    private Vector2 desiredDamageImpulse;
+    private bool isTakedDamage = false;
+    private float invencibleCounter;
+    #endregion
+
     #region Movement Variables
     [Header("Movement")]
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
@@ -41,15 +58,6 @@ public class PlayerController : MonoBehaviour
     private bool desiredJump;
     #endregion
 
-    #region Damage
-    [Header("Damage")]
-    [SerializeField, Range(1, 200)] private float takeDamageImpulse = 10;
-    [SerializeField, Range(1, 10)] private float invencibleTime = 2;
-    private Vector2 desiredDamageImpulse;
-    private bool isTakedDamage = false;
-    private float invencibleCounter;
-    #endregion
-
     #region Direction & Velocity Variables
     private Vector2 direction;
     private Vector2 desiredVelocity;
@@ -71,6 +79,7 @@ public class PlayerController : MonoBehaviour
     private float friction;
     PhysicsMaterial2D material;
     #endregion
+
     #endregion
 
     #region Unity Functions
@@ -81,6 +90,8 @@ public class PlayerController : MonoBehaviour
 
         defaultGravityScale = 2f;
         dodgeCooldownCounter = dodgeCooldown;
+        currentHealth = playerHealth;
+        healthBar.SetMaxHealth(playerHealth);
     }
 
     // Update is called once per frame
@@ -249,6 +260,8 @@ public class PlayerController : MonoBehaviour
             velocity.x = Mathf.MoveTowards(velocity.x, desiredDamageImpulse.x, takeDamageImpulse);
             body.velocity = velocity;
             isTakedDamage = true;
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
         }
     }
 
