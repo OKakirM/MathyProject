@@ -91,7 +91,6 @@ public class PlayerController : MonoBehaviour
         defaultGravityScale = 2f;
         dodgeCooldownCounter = dodgeCooldown;
         currentHealth = playerHealth;
-        healthBar.SetMaxHealth(playerHealth);
     }
 
     // Update is called once per frame
@@ -261,7 +260,7 @@ public class PlayerController : MonoBehaviour
             body.velocity = velocity;
             isTakedDamage = true;
             currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
+            healthBar.SetHealth(currentHealth, playerHealth);
         }
     }
 

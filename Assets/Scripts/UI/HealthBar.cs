@@ -5,16 +5,35 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider;
+    public Image hpImage;
+    public Image hpEffectImage;
+    public float hurtSpeed = 0.005f;
 
-    public void SetMaxHealth(int maxHealth)
+    private int playerHealth;
+    private int maxPlayerHealth;
+
+    //public void SetMaxHealth(int maxHealth)
+    //{
+    //    slider.maxValue = maxHealth;
+    //    slider.value = maxHealth;
+    //}
+
+    private void Update()
     {
-        slider.maxValue = maxHealth;
-        slider.value = maxHealth;
+        hpImage.fillAmount = playerHealth / maxPlayerHealth;
+        if (hpEffectImage.fillAmount > hpImage.fillAmount)
+        {
+            hpEffectImage.fillAmount -= hurtSpeed;
+        }
+        else
+        {
+            hpEffectImage.fillAmount = hpImage.fillAmount;
+        }
     }
 
-    public void SetHealth(int health)
+    public void SetHealth(int health, int maxHealth)
     {
-        slider.value = health;
+        maxPlayerHealth = maxHealth;
+        playerHealth = health;
     }
 }
