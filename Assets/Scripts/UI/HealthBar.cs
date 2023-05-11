@@ -9,14 +9,14 @@ public class HealthBar : MonoBehaviour
     public Image hpEffectImage;
     public float hurtSpeed = 0.005f;
 
-    private int playerHealth;
-    private int maxPlayerHealth;
+    private float playerHealth;
+    private float maxPlayerHealth;
 
-    //public void SetMaxHealth(int maxHealth)
-    //{
-    //    slider.maxValue = maxHealth;
-    //    slider.value = maxHealth;
-    //}
+    public void SetMaxHealth(float maxHealth)
+    {
+        playerHealth = maxHealth;
+        maxPlayerHealth = maxHealth;
+    }
 
     private void Update()
     {
@@ -31,9 +31,8 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void SetHealth(int health, int maxHealth)
+    public void SetHealth(float health)
     {
-        maxPlayerHealth = maxHealth;
         playerHealth = health;
     }
 }

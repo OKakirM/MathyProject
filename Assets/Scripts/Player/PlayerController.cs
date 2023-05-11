@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour
 
     #region Health Variables
     [Header("Health")]
-    [SerializeField, Range(1, 100)] private int playerHealth = 20;
+    [SerializeField, Range(1, 100)] private float playerHealth = 20;
     [SerializeField] private HealthBar healthBar;
-    public int currentHealth;
+    private float currentHealth;
     #endregion
 
     #region Damage Variables
@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour
     private float maxSpeedChange;
     private float acceleration;
     private bool isRunning = false;
+    #endregion
+
+    #region Crouch Variables
+    private bool isCrouching;
     #endregion
 
     #region Dodge Variables
@@ -91,6 +95,7 @@ public class PlayerController : MonoBehaviour
         defaultGravityScale = 2f;
         dodgeCooldownCounter = dodgeCooldown;
         currentHealth = playerHealth;
+        healthBar.SetMaxHealth(playerHealth);
     }
 
     // Update is called once per frame
@@ -99,6 +104,7 @@ public class PlayerController : MonoBehaviour
         MoveInput();
         JumpInput();
         DodgeInput();
+        CrouchInput();
         Flip();
         Animation();
     }
@@ -249,6 +255,13 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Crouching
+    private void CrouchInput()
+    {
+        isCrouching = Input.GetKey(KeyCode.S);
+    }
+    #endregion
+
     #region Damage
     public void TakingDamage(int damage)
     {
@@ -260,7 +273,7 @@ public class PlayerController : MonoBehaviour
             body.velocity = velocity;
             isTakedDamage = true;
             currentHealth -= damage;
-            healthBar.SetHealth(currentHealth, playerHealth);
+            healthBar.SetHealth(currentHealth);
         }
     }
 
@@ -309,6 +322,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("onGround", onGround);
         anim.SetBool("isDodging", isDodging);
+        anim.SetBool("isCrouching", isCrouching);
         anim.SetFloat("isTakedDamage", invencibleCounter);
         anim.SetFloat("yVelocity", body.velocity.y);
     }
