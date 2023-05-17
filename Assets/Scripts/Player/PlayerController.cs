@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         Dodge();
+        Crouching();
         Invencible();
         body.velocity = velocity;
     }
@@ -123,7 +124,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void MoveInput()
     {
-        if (!isDodging)
+        if (!isDodging && !isCrouching)
         {
             direction.x = Input.GetAxisRaw("Horizontal");
         }
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (!isDodging)
+        if (!isDodging && !isCrouching)
         {
             acceleration = onGround ? maxAcceleration : maxAirAcceleration;
             maxSpeedChange = acceleration * Time.deltaTime;
@@ -161,7 +162,7 @@ public class PlayerController : MonoBehaviour
             dodgeCooldownCounter = 0;
             DodgeAction();
         } 
-        else if (dodgeCounter < 0f && dodgeCooldownCounter <= dodgeCooldown)
+        else if (dodgeCounter <= 0f && dodgeCooldownCounter <= dodgeCooldown)
         {
             isDodging = false;
             dodgeCooldownCounter += Time.deltaTime;
@@ -259,6 +260,15 @@ public class PlayerController : MonoBehaviour
     private void CrouchInput()
     {
         isCrouching = Input.GetKey(KeyCode.S);
+    }
+
+    private void Crouching()
+    {
+        if (isCrouching)
+        {
+            direction.x = 0;
+            velocity.x = Mathf.MoveTowards(velocity.x, 0, .8f);
+        }
     }
     #endregion
 
