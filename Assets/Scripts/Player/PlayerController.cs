@@ -84,6 +84,13 @@ public class PlayerController : MonoBehaviour
     PhysicsMaterial2D material;
     #endregion
 
+    #region Effects Variables
+    [Header("Effects")]
+    [SerializeField] private ParticleSystem dust;
+    [SerializeField] private ParticleSystem impactEffect;
+    private ParticleSystem.EmissionModule dustEmission;
+    #endregion
+
     #endregion
 
     #region Unity Functions
@@ -96,6 +103,8 @@ public class PlayerController : MonoBehaviour
         dodgeCooldownCounter = dodgeCooldown;
         currentHealth = playerHealth;
         healthBar.SetMaxHealth(playerHealth);
+
+        dustEmission = dust.emission;
     }
 
     // Update is called once per frame
@@ -321,12 +330,14 @@ public class PlayerController : MonoBehaviour
 
     private void Animation()
     {
-        if(direction.x != 0)
+        if(direction.x != 0 && onGround)
         {
             isRunning = true;
+            dustEmission.rateOverTime = 6f;
         } else
         {
             isRunning = false;
+            dustEmission.rateOverTime = 0f;
         }
 
         anim.SetBool("isRunning", isRunning);
