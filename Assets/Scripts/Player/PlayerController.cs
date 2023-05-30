@@ -85,10 +85,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Effects Variables
-    [Header("Effects")]
-    [SerializeField] private ParticleSystem dust;
-    [SerializeField] private ParticleSystem impactEffect;
-    private ParticleSystem.EmissionModule dustEmission;
+    //[Header("Effects")]
     #endregion
 
     #endregion
@@ -103,8 +100,6 @@ public class PlayerController : MonoBehaviour
         dodgeCooldownCounter = dodgeCooldown;
         currentHealth = playerHealth;
         healthBar.SetMaxHealth(playerHealth);
-
-        dustEmission = dust.emission;
     }
 
     // Update is called once per frame
@@ -128,6 +123,8 @@ public class PlayerController : MonoBehaviour
         Invencible();
         body.velocity = velocity;
     }
+
+    
     #endregion
 
     #region Movement
@@ -160,12 +157,12 @@ public class PlayerController : MonoBehaviour
 
     private void Dodge()
     {
-        if (Input.GetButton("Fire3") && !isDodging && onGround && dodgeCooldownCounter >= dodgeCooldown)
+        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown)
         {
             dodgeCounter = dodgeTime;
         }
 
-        if (dodgeCounter > 0f && onGround || dodgeCounter > 0f && body.velocity.y < 0)
+        if (dodgeCounter > 0f || dodgeCounter > 0f && body.velocity.y < 0)
         {
             dodgeCounter -= Time.deltaTime;
             dodgeCooldownCounter = 0;
@@ -191,6 +188,7 @@ public class PlayerController : MonoBehaviour
 
     private void DodgeAction()
     {
+        PlayerShadows.me.ShadowTimer();
         isDodging = true;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredDodgeVelocity.x, dodgeImpulse);
         if(body.velocity.y >= 0f)
@@ -333,11 +331,9 @@ public class PlayerController : MonoBehaviour
         if(direction.x != 0 && onGround)
         {
             isRunning = true;
-            dustEmission.rateOverTime = 6f;
         } else
         {
             isRunning = false;
-            dustEmission.rateOverTime = 0f;
         }
 
         anim.SetBool("isRunning", isRunning);
