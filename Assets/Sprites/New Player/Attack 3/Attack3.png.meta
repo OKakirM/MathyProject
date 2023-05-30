@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ff5571cb929dd544e8af97b2c477977f
+guid: 4ef252506bb656249be3fe7134341c9f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,64 +105,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump and Fall-Sheet_0
+      name: Attack3_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
+        width: 128
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5f9f8c8c45035f408bd0f643336d608
-      internalID: -613266371
+      spriteID: b70ffb8a1774c5141bf37884991f2d66
+      internalID: 1999032834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump and Fall-Sheet_1
+      name: Attack3_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 128
         y: 0
-        width: 32
+        width: 128
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11f19a1217c4f774598e0930910d2c72
-      internalID: -1727931636
+      spriteID: 812845ea6f5e2db4480ccea85d0ad50a
+      internalID: 737113247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump and Fall-Sheet_2
+      name: Attack3_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 256
         y: 0
-        width: 32
+        width: 128
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5d385ebee79c24489d418edf670dc7b
-      internalID: -1315804402
+      spriteID: 592ca9de15e0f5045bf44e6e8b6ba478
+      internalID: -1631017399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack3_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0804d48dd89e8ff448f00ad6561c613f
+      internalID: -120347348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack3_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bdb020c7f7367f49866d158518c6591
+      internalID: 130023118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack3_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02dc5acfd1eb1d9478a6faa2d7f464ea
+      internalID: 913711995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack3_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca05e4b6ce5fc66428d8220e6f0d697d
+      internalID: 1839307932
       vertices: []
       indices: 
       edges: []
@@ -178,9 +262,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Jump and Fall-Sheet_0: -613266371
-      Jump and Fall-Sheet_1: -1727931636
-      Jump and Fall-Sheet_2: -1315804402
+      Attack3_0: 1999032834
+      Attack3_1: 737113247
+      Attack3_2: -1631017399
+      Attack3_3: -120347348
+      Attack3_4: 130023118
+      Attack3_5: 913711995
+      Attack3_6: 1839307932
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

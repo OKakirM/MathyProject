@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ff5571cb929dd544e8af97b2c477977f
+guid: 393bb0eb2dfd38c458fc23496ed17070
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,64 +105,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump and Fall-Sheet_0
+      name: Attack2-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
+        width: 128
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5f9f8c8c45035f408bd0f643336d608
-      internalID: -613266371
+      spriteID: ae3b2cbabfc35104698b9d0951b15b86
+      internalID: 319766690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump and Fall-Sheet_1
+      name: Attack2-Sheet_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 128
         y: 0
-        width: 32
+        width: 128
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11f19a1217c4f774598e0930910d2c72
-      internalID: -1727931636
+      spriteID: 4a47f43a0f4d9d24b9c6249c2d772dbd
+      internalID: 1285138129
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump and Fall-Sheet_2
+      name: Attack2-Sheet_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 256
         y: 0
-        width: 32
+        width: 128
         height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5d385ebee79c24489d418edf670dc7b
-      internalID: -1315804402
+      spriteID: ab49b0a8e5133dc448738d264a2958c5
+      internalID: 1279755772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 540ba5cc0dacb2c4aad11840a68cdc9e
+      internalID: 1382084513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7f9796227976a84bba4bde74f96f6f4
+      internalID: -52268403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24808e3caec914e4491374c358625acd
+      internalID: -1236628335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5f34da147a3ae3468707a702f856c4d
+      internalID: 2026446228
       vertices: []
       indices: 
       edges: []
@@ -178,9 +262,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Jump and Fall-Sheet_0: -613266371
-      Jump and Fall-Sheet_1: -1727931636
-      Jump and Fall-Sheet_2: -1315804402
+      Attack2-Sheet_0: 319766690
+      Attack2-Sheet_1: 1285138129
+      Attack2-Sheet_2: 1279755772
+      Attack2-Sheet_3: 1382084513
+      Attack2-Sheet_4: -52268403
+      Attack2-Sheet_5: -1236628335
+      Attack2-Sheet_6: 2026446228
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

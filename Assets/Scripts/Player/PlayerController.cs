@@ -15,11 +15,14 @@ public class PlayerController : MonoBehaviour
 
     #region Damage Variables
     [Header("Damage")]
-    [SerializeField, Range(1, 200)] private float takeDamageImpulse = 10;
-    [SerializeField, Range(1, 10)] private float invencibleTime = 2;
+    [SerializeField, Range(1f, 200f)] private float takeDamageImpulse = 10f;
+    [SerializeField, Range(1f, 10f)] private float invencibleTime = 2f;
+    [SerializeField, Range(1f, 10f)] private float attackImpulse = 3f;
     private Vector2 desiredDamageImpulse;
     private bool isTakedDamage = false;
     private float invencibleCounter;
+    private int attackCombo;
+    private bool isAttacking;
     #endregion
 
     #region Movement Variables
@@ -109,6 +112,7 @@ public class PlayerController : MonoBehaviour
         JumpInput();
         DodgeInput();
         CrouchInput();
+        Combo();
         Flip();
         Animation();
     }
@@ -121,6 +125,7 @@ public class PlayerController : MonoBehaviour
         Dodge();
         Crouching();
         Invencible();
+        Attacking();
         body.velocity = velocity;
     }
 
@@ -130,7 +135,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void MoveInput()
     {
-        if (!isDodging && !isCrouching)
+        if (!isDodging && !isCrouching && !Input.GetKeyDown(KeyCode.Mouse0))
         {
             direction.x = Input.GetAxisRaw("Horizontal");
         }
@@ -139,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (!isDodging && !isCrouching)
+        if (!isDodging && !isCrouching && !Input.GetKeyDown(KeyCode.Mouse0))
         {
             acceleration = onGround ? maxAcceleration : maxAirAcceleration;
             maxSpeedChange = acceleration * Time.deltaTime;
@@ -157,7 +162,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dodge()
     {
-        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown)
+        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isAttacking)
         {
             dodgeCounter = dodgeTime;
         }
@@ -309,17 +314,51 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Attacking()
+    {
+        if (isAttacking && !isDodging)
+        {
+            velocity = body.velocity;
+            velocity.x = Mathf.MoveTowards(velocity.x, isFacingRight ? (attackImpulse + attackCombo) * .2f : (-attackImpulse - attackCombo) * .2f, .5f);
+        }
+    }
+
+    private void Combo()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
+        {
+            direction.x = 0;
+            isAttacking = true;
+            anim.SetTrigger("Combo" + attackCombo);
+        }
+    }
+
+    private void Start_Combo()
+    {
+        isAttacking = false;
+        if (attackCombo < 3)
+        {
+            attackCombo++;
+        }
+    }
+
+    private void Finish_Combo()
+    {
+        isAttacking = false;
+        attackCombo = 0;
+    }
+
     #endregion
 
     #region Animations
     private void Flip()
     {
-        if (direction.x < 0 && isFacingRight)
+        if (direction.x < 0 && isFacingRight && !isAttacking)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);
         }
-        else if (direction.x > 0 && !isFacingRight)
+        else if (direction.x > 0 && !isFacingRight && !isAttacking)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);
