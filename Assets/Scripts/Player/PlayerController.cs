@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(1f, 200f)] private float takeDamageImpulse = 10f;
     [SerializeField, Range(1f, 10f)] private float invencibleTime = 2f;
     [SerializeField, Range(1f, 10f)] private float attackImpulse = 3f;
-    private Vector2 desiredDamageImpulse;
     private bool isTakedDamage = false;
     private float invencibleCounter;
     private int attackCombo;
@@ -135,7 +134,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void MoveInput()
     {
-        if (!isDodging && !isCrouching && !Input.GetKeyDown(KeyCode.Mouse0))
+        if (!isDodging && !isCrouching && !isAttacking)
         {
             direction.x = Input.GetAxisRaw("Horizontal");
         }
@@ -144,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (!isDodging && !isCrouching && !Input.GetKeyDown(KeyCode.Mouse0))
+        if (!isDodging && !isCrouching)
         {
             acceleration = onGround ? maxAcceleration : maxAirAcceleration;
             maxSpeedChange = acceleration * Time.deltaTime;
@@ -162,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dodge()
     {
-        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isAttacking)
+        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown)
         {
             dodgeCounter = dodgeTime;
         }
@@ -287,7 +286,7 @@ public class PlayerController : MonoBehaviour
     #region Damage
     public void TakingDamage(int damage)
     {
-        desiredDamageImpulse = new Vector2(isFacingRight ? -1 : 1, 0f) * Mathf.Max(takeDamageImpulse, 0f);
+        Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? -1 : 1, 0f) * Mathf.Max(takeDamageImpulse, 0f);
         if (!isDodging && !isTakedDamage)
         {
             velocity = body.velocity;
@@ -316,18 +315,20 @@ public class PlayerController : MonoBehaviour
 
     private void Attacking()
     {
-        if (isAttacking && !isDodging)
+        Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max((attackImpulse * attackCombo) * .15f, 0f);
+        if (isAttacking)
         {
             velocity = body.velocity;
-            velocity.x = Mathf.MoveTowards(velocity.x, isFacingRight ? (attackImpulse + attackCombo) * .2f : (-attackImpulse - attackCombo) * .2f, .5f);
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredDamageImpulse.x, attackImpulse);
+            body.velocity = velocity;
+
         }
     }
 
     private void Combo()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
+        if(Input.GetKeyDown(KeyCode.Mouse0) && onGround && !isAttacking && !isTakedDamage)
         {
-            direction.x = 0;
             isAttacking = true;
             anim.SetTrigger("Combo" + attackCombo);
         }
@@ -336,6 +337,7 @@ public class PlayerController : MonoBehaviour
     private void Start_Combo()
     {
         isAttacking = false;
+
         if (attackCombo < 3)
         {
             attackCombo++;
