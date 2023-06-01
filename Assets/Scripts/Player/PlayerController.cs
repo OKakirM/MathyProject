@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private float coyoteCounter;
     private float jumpBufferCounter;
     private bool desiredJump;
+    private bool prevGround;
     #endregion
 
     #region Direction & Velocity Variables
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour
     #region Componets Variables
     private Rigidbody2D body;
     public Animator anim;
+    public Animator anchor;
     public PlayerCombo scriptCombo;
     #endregion
 
@@ -210,6 +212,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+        prevGround = onGround;
         if (onGround)
         {
             jumpPhase = 0;
@@ -253,7 +256,7 @@ public class PlayerController : MonoBehaviour
     {
         if (coyoteCounter > 0f || jumpPhase < maxAirJumps)
         {
-
+            prevGround = false;
             jumpPhase += 1;
             jumpBufferCounter = 0f;
             coyoteCounter = 0;
@@ -333,7 +336,6 @@ public class PlayerController : MonoBehaviour
         {
             isAttacking = true;
             attackCounter++;
-            Debug.Log(attackCounter);
             anim.SetInteger("Combo", attackCounter);
         }
     }
@@ -363,6 +365,17 @@ public class PlayerController : MonoBehaviour
         } else
         {
             isRunning = false;
+        }
+
+        if (onGround && !prevGround && !Input.GetButton("Jump"))
+        {
+            prevGround = true;
+            anchor.SetTrigger("Squash");
+        }
+
+        if(Input.GetButtonDown("Jump") && onGround)
+        {
+            anchor.SetTrigger("Stretch");
         }
 
         anim.SetBool("isRunning", isRunning);
