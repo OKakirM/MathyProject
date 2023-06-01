@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(1f, 10f)] private float attackImpulse = 3f;
     private bool isTakedDamage = false;
     private float invencibleCounter;
-    private int attackCombo;
+    private int attackCounter;
     private bool isAttacking;
     #endregion
 
@@ -72,7 +72,8 @@ public class PlayerController : MonoBehaviour
 
     #region Componets Variables
     private Rigidbody2D body;
-    private Animator anim;
+    public Animator anim;
+    public PlayerCombo scriptCombo;
     #endregion
 
     #region Bool Variables Check
@@ -96,7 +97,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
 
         defaultGravityScale = 2f;
         dodgeCooldownCounter = dodgeCooldown;
@@ -315,7 +315,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attacking()
     {
-        Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max((attackImpulse * attackCombo) * .15f, 0f);
+        Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max((attackImpulse * attackCounter) * .15f, 0f);
         if (isAttacking)
         {
             velocity = body.velocity;
@@ -327,27 +327,15 @@ public class PlayerController : MonoBehaviour
 
     private void Combo()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0) && onGround && !isAttacking && !isTakedDamage)
+        isAttacking = scriptCombo.Attacking();
+        attackCounter = scriptCombo.ComboNumber();
+        if (Input.GetKeyDown(KeyCode.Mouse0) && onGround && !isAttacking || (invencibleCounter >= 0.4f && isTakedDamage && Input.GetKeyDown(KeyCode.Mouse0)))
         {
             isAttacking = true;
-            anim.SetTrigger("Combo" + attackCombo);
+            attackCounter++;
+            Debug.Log(attackCounter);
+            anim.SetInteger("Combo", attackCounter);
         }
-    }
-
-    private void Start_Combo()
-    {
-        isAttacking = false;
-
-        if (attackCombo < 3)
-        {
-            attackCombo++;
-        }
-    }
-
-    private void Finish_Combo()
-    {
-        isAttacking = false;
-        attackCombo = 0;
     }
 
     #endregion
