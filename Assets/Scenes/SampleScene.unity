@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 37774305}
   - component: {fileID: 37774304}
   - component: {fileID: 37774303}
-  - component: {fileID: 37774306}
   - component: {fileID: 37774307}
   m_Layer: 0
   m_Name: Sprite
@@ -231,20 +230,6 @@ Transform:
   m_Father: {fileID: 1192912750}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &37774306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 37774302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14c24d33cbd2c024583951bc80168e4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAttacking: 0
-  attackCombo: 0
 --- !u!114 &37774307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2270,7 +2255,7 @@ MonoBehaviour:
   healthBar: {fileID: 1483213792}
   takeDamageImpulse: 10
   invencibleTime: 2
-  attackImpulse: 3
+  isAttacking: 0
   maxSpeed: 4.5
   maxAcceleration: 35
   maxAirAcceleration: 20
@@ -2285,7 +2270,6 @@ MonoBehaviour:
   jumpBufferTime: 0.12
   anim: {fileID: 37774303}
   anchor: {fileID: 1192912751}
-  scriptCombo: {fileID: 37774306}
 --- !u!50 &1408886752
 Rigidbody2D:
   serializedVersion: 4

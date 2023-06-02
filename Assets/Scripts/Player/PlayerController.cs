@@ -13,15 +13,19 @@ public class PlayerController : MonoBehaviour
     private float currentHealth;
     #endregion
 
-    #region Damage Variables
-    [Header("Damage")]
+    #region Taking Damage Variables
+    [Header("Taking Damage")]
     [SerializeField, Range(1f, 200f)] private float takeDamageImpulse = 10f;
     [SerializeField, Range(1f, 10f)] private float invencibleTime = 2f;
-    [SerializeField, Range(1f, 10f)] private float attackImpulse = 3f;
     private bool isTakedDamage = false;
     private float invencibleCounter;
-    private int attackCounter;
-    private bool isAttacking;
+    #endregion
+
+    #region Dealing Damage
+    [Header("Dealing Damage")]
+    [HideInInspector] public bool isAttacking = false;
+    [SerializeField] private float attackImpulse = 3f;
+    private bool inputAttack;
     #endregion
 
     #region Movement Variables
@@ -73,9 +77,10 @@ public class PlayerController : MonoBehaviour
 
     #region Componets Variables
     private Rigidbody2D body;
-    public Animator anim;
-    public Animator anchor;
-    public PlayerCombo scriptCombo;
+    [Header("Animator Controller")]
+    [InspectorName("Sprite Animator")]public Animator anim;
+    [InspectorName("Squash & Stretch Animator")] public Animator anchor;
+    public static PlayerController instance;
     #endregion
 
     #region Bool Variables Check
@@ -96,7 +101,12 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Unity Functions
-    void Start()
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
     {
         body = GetComponent<Rigidbody2D>();
 
@@ -106,14 +116,14 @@ public class PlayerController : MonoBehaviour
         healthBar.SetMaxHealth(playerHealth);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         MoveInput();
         JumpInput();
         DodgeInput();
         CrouchInput();
-        Combo();
+        AttackInput();
+        Attack();
         Flip();
         Animation();
     }
@@ -126,17 +136,18 @@ public class PlayerController : MonoBehaviour
         Dodge();
         Crouching();
         Invencible();
-        Attacking();
         body.velocity = velocity;
     }
 
-    
     #endregion
 
     #region Movement
     private void MoveInput()
     {
-        if (!isDodging && !isCrouching && !isAttacking)
+        if (isDodging || isCrouching || isAttacking)
+        {
+            direction.x = 0f;
+        } else
         {
             direction.x = Input.GetAxisRaw("Horizontal");
         }
@@ -145,12 +156,9 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (!isDodging && !isCrouching)
-        {
-            acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-            maxSpeedChange = acceleration * Time.deltaTime;
-            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-        }
+        acceleration = onGround ? maxAcceleration : maxAirAcceleration;
+        maxSpeedChange = acceleration * Time.deltaTime;
+        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
     }
 
     #endregion
@@ -286,7 +294,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region Damage
+    #region Taking Damage
     public void TakingDamage(int damage)
     {
         Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? -1 : 1, 0f) * Mathf.Max(takeDamageImpulse, 0f);
@@ -316,41 +324,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Attacking()
-    {
-        Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max((attackImpulse * attackCounter) * .15f, 0f);
-        if (isAttacking)
-        {
-            velocity = body.velocity;
-            velocity.x = Mathf.MoveTowards(velocity.x, desiredDamageImpulse.x, attackImpulse);
-            body.velocity = velocity;
+    #endregion
 
-        }
+    #region Dealing Damage
+    private void AttackInput()
+    {
+        inputAttack = Input.GetKeyDown(KeyCode.Mouse0);
     }
 
-    private void Combo()
+    public void Attack()
     {
-        isAttacking = scriptCombo.Attacking();
-        attackCounter = scriptCombo.ComboNumber();
-        if (Input.GetKeyDown(KeyCode.Mouse0) && onGround && !isAttacking || (invencibleCounter >= 0.4f && isTakedDamage && Input.GetKeyDown(KeyCode.Mouse0)))
+        if (inputAttack && !isAttacking && onGround && !isDodging)
         {
+            Vector2 desiredAttackImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(attackImpulse, 0f);
             isAttacking = true;
-            attackCounter++;
-            anim.SetInteger("Combo", attackCounter);
+            if (direction.x != 0f)
+            {
+                body.AddForce((desiredAttackImpulse * attackImpulse) * .15f, ForceMode2D.Impulse);
+            } 
+            else
+            {
+                body.AddForce((desiredAttackImpulse * attackImpulse) * .25f, ForceMode2D.Impulse);
+            }
         }
     }
-
     #endregion
 
     #region Animations
     private void Flip()
     {
-        if (direction.x < 0 && isFacingRight && !isAttacking)
+        if (direction.x < 0 && isFacingRight)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);
         }
-        else if (direction.x > 0 && !isFacingRight && !isAttacking)
+        else if (direction.x > 0 && !isFacingRight)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);
