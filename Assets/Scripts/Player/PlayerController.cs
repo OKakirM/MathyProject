@@ -24,8 +24,12 @@ public class PlayerController : MonoBehaviour
     #region Dealing Damage
     [Header("Dealing Damage")]
     [HideInInspector] public bool isAttacking = false;
+    [SerializeField] public int damage = 5;
     [SerializeField] private float attackImpulse = 3f;
+    [SerializeField] private GameObject attackArea;
+    [SerializeField] private float attackTimer = 0.25f;
     private bool inputAttack;
+    private float attackCounterTimer;
     #endregion
 
     #region Movement Variables
@@ -338,6 +342,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 desiredAttackImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(attackImpulse, 0f);
             isAttacking = true;
+            attackArea.SetActive(isAttacking);
             if (direction.x != 0f)
             {
                 body.AddForce((desiredAttackImpulse * attackImpulse) * .15f, ForceMode2D.Impulse);
