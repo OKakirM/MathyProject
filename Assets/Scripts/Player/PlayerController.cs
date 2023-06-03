@@ -26,10 +26,12 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isAttacking = false;
     [SerializeField] public int damage = 5;
     [SerializeField] private float attackImpulse = 3f;
-    [SerializeField] private GameObject attackArea;
-    [SerializeField] private float attackTimer = 0.25f;
+    [SerializeField] private float attackDelay = .5f;
+    [SerializeField] private Transform attackHitBoxPos;
+    [SerializeField] private float attackRadius;
+    [SerializeField] private LayerMask whatIsDamageble;
     private bool inputAttack;
-    private float attackCounterTimer;
+    private float attackCounter;
     #endregion
 
     #region Movement Variables
@@ -148,7 +150,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void MoveInput()
     {
-        if (isDodging || isCrouching || isAttacking)
+        if (isDodging || isCrouching || attackCounter >= 0f)
         {
             direction.x = 0f;
         } else
@@ -175,12 +177,12 @@ public class PlayerController : MonoBehaviour
 
     private void Dodge()
     {
-        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown)
+        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isCrouching && attackCounter < 0f)
         {
             dodgeCounter = dodgeTime;
         }
 
-        if (dodgeCounter > 0f || dodgeCounter > 0f && body.velocity.y < 0)
+        if (dodgeCounter > 0f)
         {
             dodgeCounter -= Time.deltaTime;
             dodgeCooldownCounter = 0;
@@ -342,7 +344,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 desiredAttackImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(attackImpulse, 0f);
             isAttacking = true;
-            attackArea.SetActive(isAttacking);
+            attackCounter = attackDelay;
             if (direction.x != 0f)
             {
                 body.AddForce((desiredAttackImpulse * attackImpulse) * .15f, ForceMode2D.Impulse);
@@ -351,7 +353,26 @@ public class PlayerController : MonoBehaviour
             {
                 body.AddForce((desiredAttackImpulse * attackImpulse) * .25f, ForceMode2D.Impulse);
             }
+        } 
+        else
+        {
+            attackCounter -= Time.deltaTime;
         }
+    }
+
+    private void CheckAttackHitBox()
+    {
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackHitBoxPos.position, attackRadius, whatIsDamageble);
+
+        foreach (Collider2D collider in detectedObjects)
+        {
+            collider.transform.parent.SendMessage("Damage", damage);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(attackHitBoxPos.position, attackRadius);                                                                                                   
     }
     #endregion
 
@@ -393,7 +414,6 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("onGround", onGround);
-        anim.SetBool("isDodging", isDodging);
         anim.SetBool("isCrouching", isCrouching);
         anim.SetFloat("isTakedDamage", invencibleCounter);
         anim.SetFloat("yVelocity", body.velocity.y);
