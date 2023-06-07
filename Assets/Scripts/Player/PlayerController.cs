@@ -24,12 +24,12 @@ public class PlayerController : MonoBehaviour
     #region Dealing Damage
     [Header("Dealing Damage")]
     [HideInInspector] public bool isAttacking = false;
-    [SerializeField] public int damage = 5;
-    [SerializeField] private float attackImpulse = 3f;
-    [SerializeField] private float attackDelay = .5f;
-    [SerializeField] private Transform attackHitBoxPos;
-    [SerializeField] private float attackRadius;
-    [SerializeField] private LayerMask whatIsDamageble;
+    [SerializeField, Range(1f, 50f)] public int damage = 5;
+    [SerializeField, Range(1f, 10f)] private float attackImpulse = 3f;
+    [SerializeField, Range(0f, 1f)] private float attackDelay = .5f;
+    [SerializeField] public Transform attackHitBoxPos;
+    [SerializeField, Range(0f, 1f)] public float attackRadius;
+    [SerializeField] public LayerMask whatIsDamageble;
     private bool inputAttack;
     private float attackCounter;
     #endregion
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dodge")]
     [SerializeField, Range(0f, 100f)] private float dodgeImpulse = 8f;
     [SerializeField, Range(0f, 1f)] private float dodgeTime = 0.12f;
-    [SerializeField, Range(0f, 10f)] private float dodgeCooldown = .1f;
+    [SerializeField, Range(0f, 1f)] private float dodgeCooldown = .1f;
     private bool isDodging;
     private Vector2 desiredDodgeVelocity;
     private float dodgeCounter;
@@ -340,7 +340,7 @@ public class PlayerController : MonoBehaviour
 
     public void Attack()
     {
-        if (inputAttack && !isAttacking && onGround && !isDodging)
+        if (inputAttack && !isAttacking && onGround && !isDodging && !isCrouching)
         {
             Vector2 desiredAttackImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(attackImpulse, 0f);
             isAttacking = true;
@@ -357,16 +357,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             attackCounter -= Time.deltaTime;
-        }
-    }
-
-    private void CheckAttackHitBox()
-    {
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackHitBoxPos.position, attackRadius, whatIsDamageble);
-
-        foreach (Collider2D collider in detectedObjects)
-        {
-            collider.transform.parent.SendMessage("Damage", damage);
         }
     }
 
@@ -389,6 +379,11 @@ public class PlayerController : MonoBehaviour
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);
         }
+    }
+
+    public bool PlayerFacingDirection()
+    {
+        return isFacingRight;
     }
 
     private void Animation()

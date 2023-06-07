@@ -7,17 +7,11 @@ public class SlimeAI : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private float distanceToReach = 10f;
     [SerializeField] private float enemyVelocity = 2f;
-    [SerializeField] private float enemyJumpHeight = 2f;
-    [SerializeField] private float enemyAttackDelay = 3f;
-    [SerializeField] private float enemyPause = 3f;
 
     private Rigidbody2D body;
     private Vector2 direction;
     private float playerDistance;
-    private float enemyDelayCounter;
-    private float enemyPauseCounter;
     private bool isFacingRight = true;
-    private bool canJump;
 
     private bool onGround;
     private float friction;
@@ -49,11 +43,6 @@ public class SlimeAI : MonoBehaviour
 
     private void EnemyMovement()
     {
-        body.velocity = Vector2.zero;
-        if(playerDistance <= distanceToReach)
-        {
-            //body.velocity = new Vector2(direction.x * enemyVelocity, body.velocity.y);
-        }
     }
 
     #region Others
