@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class DealingAttack : MonoBehaviour
 {
     public PlayerController attack;
+    private SpriteRenderer sprRender;
+
+    private void Awake()
+    {
+        sprRender = GetComponent<SpriteRenderer>();
+    }
 
     private void CheckAttackHitBox()
     {
@@ -14,5 +21,10 @@ public class DealingAttack : MonoBehaviour
         {
             collider.GetComponent<EnemyHealth>().Damage(attack.damage);
         }
+    }
+
+    private void Shake()
+    {
+        CameraShaker.Instance.ShakeOnce(2f, 3f, .1f, .6f);
     }
 }

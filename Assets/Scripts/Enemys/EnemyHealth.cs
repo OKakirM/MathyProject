@@ -26,7 +26,6 @@ public class EnemyHealth : MonoBehaviour
     {
         velocity = body.velocity;
         knockbackEnemy();
-        Debug.Log(isTakedDamage);
         body.velocity = velocity;
     }
 

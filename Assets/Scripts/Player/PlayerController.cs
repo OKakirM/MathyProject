@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,8 +18,11 @@ public class PlayerController : MonoBehaviour
     [Header("Taking Damage")]
     [SerializeField, Range(1f, 200f)] private float takeDamageImpulse = 10f;
     [SerializeField, Range(1f, 10f)] private float invencibleTime = 2f;
+    [SerializeField] private GameObject ui;
+    [SerializeField] private GameObject deathBG;
     private bool isTakedDamage = false;
     private float invencibleCounter;
+    private bool isDead = false;
     #endregion
 
     #region Dealing Damage
@@ -87,6 +91,7 @@ public class PlayerController : MonoBehaviour
     [InspectorName("Sprite Animator")]public Animator anim;
     [InspectorName("Squash & Stretch Animator")] public Animator anchor;
     public static PlayerController instance;
+    public GameOverScript gameover;
     #endregion
 
     #region Bool Variables Check
@@ -120,6 +125,9 @@ public class PlayerController : MonoBehaviour
         dodgeCooldownCounter = dodgeCooldown;
         currentHealth = playerHealth;
         healthBar.SetMaxHealth(playerHealth);
+
+        ui.SetActive(true);
+        deathBG.SetActive(false);
     }
 
     private void Update()
@@ -150,7 +158,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void MoveInput()
     {
-        if (isDodging || isCrouching || attackCounter >= 0f)
+        if (isDodging || isCrouching || attackCounter >= 0f || isDead)
         {
             direction.x = 0f;
         } else
@@ -177,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dodge()
     {
-        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isCrouching && attackCounter < 0f)
+        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isCrouching && attackCounter < 0f && !isDead)
         {
             dodgeCounter = dodgeTime;
         }
@@ -209,6 +217,7 @@ public class PlayerController : MonoBehaviour
     private void DodgeAction()
     {
         PlayerShadows.me.ShadowTimer();
+        CameraShaker.Instance.ShakeOnce(2f, .5f, .1f, .2f);
         isDodging = true;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredDodgeVelocity.x, dodgeImpulse);
         if(body.velocity.y >= 0f)
@@ -247,7 +256,7 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jumpBufferCounter > 0 && !isDodging)
+        if (jumpBufferCounter > 0 && !isDodging && !isDead)
         {
             JumpAction();
         }
@@ -287,7 +296,11 @@ public class PlayerController : MonoBehaviour
     #region Crouching
     private void CrouchInput()
     {
-        isCrouching = Input.GetKey(KeyCode.S);
+        if(!isDead)
+        {
+            isCrouching = Input.GetKey(KeyCode.S);
+        }
+
     }
 
     private void Crouching()
@@ -306,12 +319,21 @@ public class PlayerController : MonoBehaviour
         Vector2 desiredDamageImpulse = new Vector2(isFacingRight ? -1 : 1, 0f) * Mathf.Max(takeDamageImpulse, 0f);
         if (!isDodging && !isTakedDamage)
         {
+            CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
             velocity = body.velocity;
             velocity.x = Mathf.MoveTowards(velocity.x, desiredDamageImpulse.x, takeDamageImpulse);
             body.velocity = velocity;
             isTakedDamage = true;
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
+
+            if(currentHealth <= 0)
+            {
+                ui.SetActive(false);
+                deathBG.SetActive(true);
+                gameover.Setup();
+                isDead = true;
+            }
         }
     }
 
@@ -340,7 +362,7 @@ public class PlayerController : MonoBehaviour
 
     public void Attack()
     {
-        if (inputAttack && !isAttacking && onGround && !isDodging && !isCrouching)
+        if (inputAttack && !isAttacking && onGround && !isDodging && !isCrouching && !isDead)
         {
             Vector2 desiredAttackImpulse = new Vector2(isFacingRight ? 1 : -1, 0f) * Mathf.Max(attackImpulse, 0f);
             isAttacking = true;
@@ -410,7 +432,9 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("onGround", onGround);
         anim.SetBool("isCrouching", isCrouching);
-        anim.SetFloat("isTakedDamage", invencibleCounter);
+        anim.SetBool("isDead", isDead);
+        anim.SetFloat("invencibleCounter", invencibleCounter);
+        anchor.SetBool("isTakedDamage", isTakedDamage);
         anim.SetFloat("yVelocity", body.velocity.y);
     }
     #endregion

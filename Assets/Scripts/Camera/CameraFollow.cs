@@ -15,9 +15,6 @@ public class CameraFollow : MonoBehaviour
 
     private void Awake()
     {
-        pos.x = targetPos.x + maxPosRightUp.x;
-        pos.y = targetPos.y + maxPosLeftDown.y;
-        transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, pos.y, -1), 1);
     }
 
     // Start is called before the first frame update
