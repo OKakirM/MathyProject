@@ -22,37 +22,16 @@ public class EnemyHealth : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
-    {
-        velocity = body.velocity;
-        knockbackEnemy();
-        body.velocity = velocity;
-    }
-
     public void Damage(int damage)
     {
         currentHealth -= damage;
+        knockbackEnemy();
         isTakedDamage = true;
     }
 
     private void knockbackEnemy()
     {
-
-        if (isTakedDamage && knockbackTimer >= 0f)
-        {
-            knockbackTimer -= Time.deltaTime;
-            Vector2 desiredKnockback = new Vector2(player.PlayerFacingDirection() ? 1 : -1, 0f) * Mathf.Max(knockback, 0f);
-            if (player.PlayerFacingDirection() || !player.PlayerFacingDirection())
-            {
-                velocity.x = Mathf.MoveTowards(velocity.x, desiredKnockback.x, knockback);
-            }
-        }
-        else if (knockbackTimer < 0f && isTakedDamage)
-        {
-            velocity.x = Mathf.MoveTowards(velocity.x, 0f, knockback);
-            knockbackTimer = knockbackDuration;
-            isTakedDamage = false;
-        }
-
+        Vector2 desiredKnockback = new Vector2(player.PlayerFacingDirection() ? 1 : -1, 0f);
+        body.AddForce(desiredKnockback * knockback, ForceMode2D.Impulse);
     }
 }
