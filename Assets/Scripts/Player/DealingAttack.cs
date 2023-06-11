@@ -6,12 +6,6 @@ using EZCameraShake;
 public class DealingAttack : MonoBehaviour
 {
     public PlayerController attack;
-    private SpriteRenderer sprRender;
-
-    private void Awake()
-    {
-        sprRender = GetComponent<SpriteRenderer>();
-    }
 
     private void CheckAttackHitBox()
     {

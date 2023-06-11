@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject deathBG;
     private bool isTakedDamage = false;
     private float invencibleCounter;
-    private bool isDead = false;
+    [HideInInspector] public bool isDead = false;
     #endregion
 
     #region Dealing Damage

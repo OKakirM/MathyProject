@@ -12,11 +12,6 @@ public class EnemyDamage : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("Player"))

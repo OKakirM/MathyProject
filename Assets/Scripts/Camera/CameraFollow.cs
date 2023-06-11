@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject target;
+    public PlayerController pController;
 
     private Vector2 targetPos;
     private Vector2 pos;
@@ -38,13 +39,19 @@ public class CameraFollow : MonoBehaviour
                 targetPos.x = target.transform.position.x;
                 targetPos.y = target.transform.position.y;
 
-                if (targetPos.x > maxPosRightUp.x && targetPos.x < maxPosLeftDown.x)
+                if (targetPos.x >= maxPosRightUp.x && targetPos.x <= maxPosLeftDown.x && !pController.isDead)
                 {
                     pos.x = targetPos.x;
                 }
 
-                if(targetPos.y < maxPosRightUp.y && targetPos.y > maxPosLeftDown.y)
+                if(targetPos.y <= maxPosRightUp.y && targetPos.y >= maxPosLeftDown.y && !pController.isDead)
                 {
+                    pos.y = targetPos.y;
+                }
+
+                if(pController.isDead)
+                {
+                    pos.x = targetPos.x;
                     pos.y = targetPos.y;
                 }
             }

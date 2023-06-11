@@ -4,18 +4,45 @@ using UnityEngine;
 
 public class SlimeAI : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private float distanceToReach = 10f;
-    [SerializeField] private float enemyVelocity = 2f;
+    #region Variables
 
+    #region Movement & Distance Variables
+    [Header("Movement & Distance")]
+    [SerializeField, Range(0f, 20f)] private float distanceToReach = 10f;
+    [SerializeField, Range(0f, 10f)] private float enemyVelocity = 2f;
+    [SerializeField, Range(0f, 20f)] private float enemyMaxVelocity = 5f;
+    private float maxSpeedChange;
+    #endregion
+
+    #region Components Variables
+    [Header("Components")]
+    [SerializeField] private Transform player;
+    [SerializeField] private PlayerController pController;
+    [SerializeField] private EnemyHealth enemyHealth;
     private Rigidbody2D body;
-    private Vector2 direction;
+    #endregion
+
+    #region Bool Variables Check
     private float playerDistance;
     private bool isFacingRight = true;
+    #endregion
 
+    #region Direction & Velocity Variables
+    private Vector2 direction;
+    private Vector2 velocity;
+    private Vector2 desiredVelocity;
+    #endregion
+
+    #region Shake Variables
+    #endregion
+
+    #region Collisions Variable
     private bool onGround;
     private float friction;
     PhysicsMaterial2D material;
+    #endregion
+
+    #endregion
 
     // Start is called before the first frame update
     void Awake()
@@ -33,7 +60,9 @@ public class SlimeAI : MonoBehaviour
     private void FixedUpdate()
     {
         direction = (player.position - transform.position).normalized;
+        velocity = body.velocity;
         EnemyMovement();
+        body.velocity = velocity;
     }
 
     private void CheckDistance()
@@ -43,17 +72,27 @@ public class SlimeAI : MonoBehaviour
 
     private void EnemyMovement()
     {
-        if(playerDistance <= distanceToReach)
+        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(enemyVelocity, 0f);
+        if (playerDistance <= distanceToReach && !pController.isDead && !enemyHealth.isTakedDamage && !enemyHealth.isDead)
         {
-            body.velocity = new Vector2(direction.x * enemyVelocity, 0f);
+            maxSpeedChange = enemyMaxVelocity * Time.deltaTime;
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
         } 
         else 
         {
-            body.velocity = Vector2.zero;
+            velocity.x = Mathf.MoveTowards(velocity.x, 0f, maxSpeedChange);
+            if (enemyHealth.isDead)
+            {
+            }
         }
     }
 
     #region Others
+
+    #region Shake
+
+    #endregion
+
     private void Flip()
     {
         if (direction.x < 0.01f && isFacingRight)
