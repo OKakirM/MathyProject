@@ -14,11 +14,19 @@ public class SlimeAI : MonoBehaviour
     private float maxSpeedChange;
     #endregion
 
+    #region Destroy Object Variables
+    [SerializeField, Range(0f, 1f)] private float destroyTime = 0.2f;
+    private float destroyCounter = 0f;
+
+    #endregion
+
     #region Components Variables
     [Header("Components")]
     [SerializeField] private Transform player;
     [SerializeField] private PlayerController pController;
     [SerializeField] private EnemyHealth enemyHealth;
+    [SerializeField] private EnemyShake enemyShake;
+    [SerializeField] private Animator anim;
     private Rigidbody2D body;
     #endregion
 
@@ -31,9 +39,6 @@ public class SlimeAI : MonoBehaviour
     private Vector2 direction;
     private Vector2 velocity;
     private Vector2 desiredVelocity;
-    #endregion
-
-    #region Shake Variables
     #endregion
 
     #region Collisions Variable
@@ -54,6 +59,7 @@ public class SlimeAI : MonoBehaviour
     void Update()
     {
         CheckDistance();
+        Animations();
         Flip();
     }
 
@@ -81,17 +87,30 @@ public class SlimeAI : MonoBehaviour
         else 
         {
             velocity.x = Mathf.MoveTowards(velocity.x, 0f, maxSpeedChange);
-            if (enemyHealth.isDead)
+            if (enemyHealth.isDead && destroyCounter <= destroyTime)
             {
+                Physics2D.IgnoreLayerCollision(9, 7, true);
+                StartCoroutine(enemyShake.Shake(.1f, .03f));
+                destroyCounter += Time.deltaTime;
+            } 
+            else if (enemyHealth.isDead && destroyCounter >= destroyTime)
+            {
+                destroyCounter += Time.deltaTime;
+                anim.SetBool("isDead", enemyHealth.isDead);
+                if (destroyCounter >= destroyTime + .2f)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }
 
     #region Others
 
-    #region Shake
-
-    #endregion
+    private void Animations()
+    {
+        anim.SetBool("isTakedDamage", enemyHealth.isTakedDamage);
+    }
 
     private void Flip()
     {
