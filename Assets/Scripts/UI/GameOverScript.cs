@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class GameOverScript : MonoBehaviour
 {
     public Animator transition;
-
     public float transitionTime = 1f;
 
     public void Setup()

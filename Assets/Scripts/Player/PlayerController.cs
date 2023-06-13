@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
     [InspectorName("Squash & Stretch Animator")] public Animator anchor;
     public static PlayerController instance;
     public GameOverScript gameover;
+    public PauseMenu pauseMenu;
     #endregion
 
     #region Bool Variables Check
@@ -132,14 +133,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        MoveInput();
-        JumpInput();
-        DodgeInput();
-        CrouchInput();
-        AttackInput();
-        Attack();
-        Flip();
-        Animation();
+        if (!pauseMenu.isPaused)
+        {
+            MoveInput();
+            JumpInput();
+            DodgeInput();
+            CrouchInput();
+            AttackInput();
+            Attack();
+            Flip();
+            Animation();
+        }
     }
 
     private void FixedUpdate()

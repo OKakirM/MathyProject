@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BarsTransition
+  m_Controller: {fileID: 9100000, guid: da19c345c0c59894dbf758e4037a49a4, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d76e7c24b6ee91b408241d8683de6075, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2780a1ca2ca1efc4889a93a98c149f8b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: de4e5a200f2f0a04ca23864a54d4e410, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b96bc99b88c298547a99ddb0ff3afdb9, type: 2}
