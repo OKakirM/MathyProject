@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class SlimeAI : MonoBehaviour
 {
@@ -97,6 +98,7 @@ public class SlimeAI : MonoBehaviour
             {
                 destroyCounter += Time.deltaTime;
                 anim.SetBool("isDead", enemyHealth.isDead);
+                CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
                 if (destroyCounter >= destroyTime + .2f)
                 {
                     Destroy(gameObject);

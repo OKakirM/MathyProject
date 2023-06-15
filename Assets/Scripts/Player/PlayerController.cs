@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("Health")]
     [SerializeField, Range(1, 100)] private float playerHealth = 20;
     [SerializeField] private HealthBar healthBar;
-    private float currentHealth;
+    [HideInInspector] public float currentHealth;
     #endregion
 
     #region Taking Damage Variables
@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     public GameOverScript gameover;
     public PauseMenu pauseMenu;
+    public QuestionScripts doQuestion;
     #endregion
 
     #region Bool Variables Check
@@ -133,7 +134,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!pauseMenu.isPaused)
+        if (!pauseMenu.isPaused && !doQuestion.isSolving)
         {
             MoveInput();
             JumpInput();
@@ -331,12 +332,10 @@ public class PlayerController : MonoBehaviour
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
 
-            if(currentHealth <= 0)
+
+            if (currentHealth <= 0)
             {
-                ui.SetActive(false);
-                deathBG.SetActive(true);
-                gameover.Setup();
-                isDead = true;
+                doQuestion.Setup();
             }
         }
     }
