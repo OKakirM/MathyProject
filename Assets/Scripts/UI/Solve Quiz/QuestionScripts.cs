@@ -115,9 +115,9 @@ public class QuestionScripts : MonoBehaviour
 
     public void CreateQuestion()
     {
-        int a = Random.Range(0, 10);
-        int b = Random.Range(0, 00);
-        int op = Random.Range(4, 5);
+        float a = Random.Range(0, 10);
+        float b = Random.Range(0, 10);
+        int op = Random.Range(1, 5);
 
         if((b == 0 || a == 0) && op == 4)
         {
@@ -174,7 +174,7 @@ public class QuestionScripts : MonoBehaviour
 
     private void Timer()
     {
-        counter -= 0.00416f;
+        counter -= 0.016f;
 
         int minutes = Mathf.FloorToInt(counter / 60);
         int seconds = Mathf.FloorToInt(counter - minutes * 60);

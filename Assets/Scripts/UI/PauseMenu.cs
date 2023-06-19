@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public QuestionScripts question;
+    public PlayerController player;
     [HideInInspector] public bool isPaused = false;
 
     public Animator transition;
@@ -21,7 +22,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !question.isSolving)
+        if (Input.GetKeyDown(KeyCode.Escape) && !question.isSolving && !player.isDead)
         {
             if (isPaused)
             {
