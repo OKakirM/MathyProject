@@ -13,7 +13,14 @@ public class DealingAttack : MonoBehaviour
 
         foreach (Collider2D collider in detectedObjects)
         {
-            collider.GetComponent<EnemyHealth>().Damage(attack.damage);
+            if(Random.Range(0, 100) >= 80)
+            {
+                collider.GetComponent<EnemyHealth>().Damage(attack.damage + 10);
+            }
+            else
+            {
+                collider.GetComponent<EnemyHealth>().Damage(attack.damage);
+            }
         }
     }
 

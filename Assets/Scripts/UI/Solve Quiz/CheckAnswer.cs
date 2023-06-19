@@ -16,6 +16,7 @@ public class CheckAnswer : MonoBehaviour
         if(answer.text == questionScript.correctAnswer.ToString())
         {
             questionScript.Correct();
+            questionScript.wasSaved = true;
         } 
         else
         {

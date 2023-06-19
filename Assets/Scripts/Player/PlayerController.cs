@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Crouch Variables
-    private bool isCrouching;
+    [HideInInspector] public bool isCrouching;
     #endregion
 
     #region Dodge Variables
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Direction & Velocity Variables
-    private Vector2 direction;
+    [HideInInspector] public Vector2 direction;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
     #endregion
@@ -144,7 +144,9 @@ public class PlayerController : MonoBehaviour
             Attack();
             Flip();
             Animation();
+            healthBar.SetHealth(currentHealth);
         }
+        doQuestion.UpdateQuiz();
     }
 
     private void FixedUpdate()
@@ -330,10 +332,9 @@ public class PlayerController : MonoBehaviour
             body.velocity = velocity;
             isTakedDamage = true;
             currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
 
 
-            if (currentHealth <= 0)
+            if (currentHealth <= 0 && !isDead)
             {
                 doQuestion.Setup();
             }
