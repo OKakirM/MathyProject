@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
 
-public class BombAI : MonoBehaviour
+public class DroneAI : MonoBehaviour
 {
     #region Variables
 
@@ -34,8 +34,6 @@ public class BombAI : MonoBehaviour
     #region Bool Variables Check
     private float playerDistance;
     private bool isFacingRight = true;
-    private bool isRunning;
-    private bool isExploding;
     #endregion
 
     #region Direction & Velocity Variables
@@ -56,7 +54,6 @@ public class BombAI : MonoBehaviour
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        isExploding = false;
     }
 
     // Update is called once per frame
@@ -65,15 +62,6 @@ public class BombAI : MonoBehaviour
         CheckDistance();
         Animations();
         Flip();
-
-        if (velocity.x != 0f && !isExploding)
-        {
-            isRunning = true;
-        }
-        else
-        {
-            isRunning = false;
-        }
     }
 
     private void FixedUpdate()
@@ -91,36 +79,29 @@ public class BombAI : MonoBehaviour
 
     private void EnemyMovement()
     {
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(enemyVelocity, 0f);
-        maxSpeedChange = enemyMaxVelocity * Time.deltaTime;
+        desiredVelocity = new Vector2(direction.x, direction.y) * Mathf.Max(enemyVelocity, 0f);
         if (playerDistance <= distanceToReach && !pController.isDead && !enemyHealth.isTakedDamage && !enemyHealth.isDead)
         {
-            if((playerDistance <= 1.5f && playerDistance >= 1f) || enemyHealth.isTakedDamage || isExploding)
-            {
-                velocity.x = Mathf.MoveTowards(velocity.x, 0f, maxSpeedChange);
-                isExploding = true;
-            }
-            else if(!isExploding)
-            {
-                velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-            }
+            maxSpeedChange = enemyMaxVelocity * Time.deltaTime;
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+            velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
         }
         else
         {
             velocity.x = Mathf.MoveTowards(velocity.x, 0f, maxSpeedChange);
-        }
-
-        if (isExploding)
-        {
-            anim.SetBool("isExplosing", isExploding);
-            StartCoroutine(enemyShake.Shake(.1f, .015f));
-            destroyCounter += Time.deltaTime;
-
-            if (destroyCounter >= destroyTime)
+            velocity.y = Mathf.MoveTowards(velocity.y, 0f, maxSpeedChange);
+            if (enemyHealth.isDead && destroyCounter <= destroyTime)
             {
-                anim.SetBool("isDead", true);
+                Physics2D.IgnoreLayerCollision(9, 7, true);
+                StartCoroutine(enemyShake.Shake(.1f, .03f));
+                destroyCounter += Time.deltaTime;
+            }
+            else if (enemyHealth.isDead && destroyCounter >= destroyTime)
+            {
+                destroyCounter += Time.deltaTime;
+                anim.SetBool("isDead", enemyHealth.isDead);
                 CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
-                if (destroyCounter >= destroyTime + .6f)
+                if (destroyCounter >= destroyTime + .4f)
                 {
                     Destroy(gameObject);
                 }
@@ -133,17 +114,16 @@ public class BombAI : MonoBehaviour
     private void Animations()
     {
         anim.SetBool("isTakedDamage", enemyHealth.isTakedDamage);
-        anim.SetBool("isRunning", isRunning);
     }
 
     private void Flip()
     {
-        if (direction.x < 0.01f && isFacingRight && !isExploding)
+        if (direction.x < 0.01f && isFacingRight)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);
         }
-        else if (direction.x > 0.01f && !isFacingRight && !isExploding)
+        else if (direction.x > 0.01f && !isFacingRight)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0f, 180f, 0f);

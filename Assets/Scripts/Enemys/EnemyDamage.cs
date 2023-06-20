@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
-    [SerializeField, Range(1, 100)] private int damage = 10;
+    [SerializeField, Range(1, 100)] public int damage = 10;
     private Rigidbody2D body;
 
     private void Awake()

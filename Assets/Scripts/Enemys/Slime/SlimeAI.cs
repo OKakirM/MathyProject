@@ -99,7 +99,7 @@ public class SlimeAI : MonoBehaviour
                 destroyCounter += Time.deltaTime;
                 anim.SetBool("isDead", enemyHealth.isDead);
                 CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
-                if (destroyCounter >= destroyTime + .2f)
+                if (destroyCounter >= destroyTime + .4f)
                 {
                     Destroy(gameObject);
                 }
