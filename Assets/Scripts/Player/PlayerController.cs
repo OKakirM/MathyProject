@@ -336,7 +336,14 @@ public class PlayerController : MonoBehaviour
 
             if (currentHealth <= 0 && !isDead)
             {
-                doQuestion.Setup();
+                if(damage >= 100)
+                {
+                    doQuestion.Wrong();
+                }
+                else
+                {
+                    doQuestion.Setup();
+                }
             }
         }
     }
