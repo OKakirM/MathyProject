@@ -7,11 +7,13 @@ public class MenuScript : MonoBehaviour
 {
     public LevelLoader levelLoader;
     public Animator anim;
+    public Animator logo;
     private bool isOn = true;
 
     private void Update()
     {
         anim.SetBool("isOn", isOn);
+        logo.SetBool("isOn", isOn);
     }
 
     public void Play()

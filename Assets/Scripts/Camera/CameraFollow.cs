@@ -54,7 +54,7 @@ public class CameraFollow : MonoBehaviour
             lookDownCounter += Time.deltaTime;
             if(lookDownCounter >= lookDownTimer)
             {
-                pos.y = targetPos.y - fowardView;
+                pos.y = targetPos.y - fowardView * 1.5f;
             }
         }
 
