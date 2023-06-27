@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dodge()
     {
-        if (Input.GetButton("Fire3") && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isCrouching && attackCounter < 0f && !isDead)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.K)) && !isDodging && dodgeCooldownCounter >= dodgeCooldown && !isCrouching && attackCounter < 0f && !isDead)
         {
             dodgeCounter = dodgeTime;
         }
@@ -368,7 +368,7 @@ public class PlayerController : MonoBehaviour
     #region Dealing Damage
     private void AttackInput()
     {
-        inputAttack = Input.GetKeyDown(KeyCode.Mouse0);
+        inputAttack = Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.J);
     }
 
     public void Attack()
