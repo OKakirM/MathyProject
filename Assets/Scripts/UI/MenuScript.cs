@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuScript : MonoBehaviour
 {
     public LevelLoader levelLoader;
+    public VolumeControler volumeControler;
     public Animator anim;
     public Animator logo;
     private bool isOn = true;
@@ -18,6 +19,7 @@ public class MenuScript : MonoBehaviour
 
     public void Play()
     {
+        volumeControler.FadeOut();
         levelLoader.LoadNextLevel();
         isOn = false;
     }

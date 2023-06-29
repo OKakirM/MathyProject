@@ -96,6 +96,16 @@ public class PlayerController : MonoBehaviour
     public QuestionScripts doQuestion;
     #endregion
 
+    #region Audio Variables
+    [Header("Audio Controller")]
+    [SerializeField] private AudioSource jumpSoundEffect;
+    [SerializeField] private AudioSource walkSoundEffect;
+    [SerializeField] private AudioSource hitSoundEffect;
+    [SerializeField] private AudioSource dashSoundEffect;
+    private float timerCount;
+
+    #endregion
+
     #region Bool Variables Check
     private bool isFacingRight = true;
     private bool isDodgingActive;
@@ -226,6 +236,10 @@ public class PlayerController : MonoBehaviour
         PlayerShadows.me.ShadowTimer();
         CameraShaker.Instance.ShakeOnce(2f, .5f, .1f, .2f);
         isDodging = true;
+        if (!dashSoundEffect.isPlaying)
+        {
+            dashSoundEffect.Play();
+        }
         velocity.x = Mathf.MoveTowards(velocity.x, desiredDodgeVelocity.x, dodgeImpulse);
         if(body.velocity.y >= 0f)
         {
@@ -263,7 +277,7 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jumpBufferCounter > 0 && !isDodging && !isDead)
+        if (jumpBufferCounter > 0 && !isDodging && !isDead && !isAttacking && !inputAttack)
         {
             JumpAction();
         }
@@ -286,6 +300,10 @@ public class PlayerController : MonoBehaviour
     {
         if (coyoteCounter > 0f || jumpPhase < maxAirJumps)
         {
+            if (!jumpSoundEffect.isPlaying)
+            {
+                jumpSoundEffect.Play();
+            }
             prevGround = false;
             jumpPhase += 1;
             jumpBufferCounter = 0f;
@@ -332,6 +350,7 @@ public class PlayerController : MonoBehaviour
             body.velocity = velocity;
             isTakedDamage = true;
             currentHealth -= damage;
+            hitSoundEffect.Play();
 
 
             if (currentHealth <= 0 && !isDead)
@@ -421,10 +440,18 @@ public class PlayerController : MonoBehaviour
 
     private void Animation()
     {
-        if(direction.x != 0 && onGround)
+        if (direction.x != 0 && onGround)
         {
             isRunning = true;
-        } else
+            timerCount += Time.deltaTime;
+
+            if(!walkSoundEffect.isPlaying && timerCount >= .3f)
+            {
+                timerCount = 0f;
+                walkSoundEffect.Play();
+            }
+        }
+        else
         {
             isRunning = false;
         }

@@ -18,7 +18,9 @@ public class EnemyHealth : MonoBehaviour
     private Vector2 velocity;
     [HideInInspector] public bool isDead = false;
     [HideInInspector] public bool isTakedDamage = false;
-    
+
+    public AudioSource deadDamageSound;
+    public AudioSource takingDamageSound;
 
     private void Start()
     {
@@ -36,10 +38,15 @@ public class EnemyHealth : MonoBehaviour
     public void Damage(int damage)
     {
         currentHealth -= damage;
-        isTakedDamage = true;   
-        if(currentHealth <= 0)
+        isTakedDamage = true;
+        if (currentHealth <= 0)
         {
+            deadDamageSound.Play();
             isDead = true;
+        } 
+        else
+        {
+            takingDamageSound.Play();
         }
     }
 

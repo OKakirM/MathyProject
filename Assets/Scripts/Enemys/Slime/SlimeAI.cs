@@ -48,6 +48,12 @@ public class SlimeAI : MonoBehaviour
     PhysicsMaterial2D material;
     #endregion
 
+    public AudioSource shakingSound;
+    public AudioSource deathSound;
+    public AudioSource talkSound;
+    private bool wasPlayed = false;
+
+
     #endregion
 
     // Start is called before the first frame update
@@ -92,12 +98,26 @@ public class SlimeAI : MonoBehaviour
             {
                 Physics2D.IgnoreLayerCollision(9, 7, true);
                 StartCoroutine(enemyShake.Shake(.1f, .03f));
+                if (!shakingSound.isPlaying)
+                {
+                    shakingSound.Play();
+                }
+                if (!talkSound.isPlaying && !wasPlayed)
+                {
+                    talkSound.Play();
+                    wasPlayed = true;
+                }
+
                 destroyCounter += Time.deltaTime;
             } 
             else if (enemyHealth.isDead && destroyCounter >= destroyTime)
             {
                 destroyCounter += Time.deltaTime;
                 anim.SetBool("isDead", enemyHealth.isDead);
+                if (!deathSound.isPlaying)
+                {
+                    deathSound.Play();
+                }
                 CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
                 if (destroyCounter >= destroyTime + .4f)
                 {

@@ -15361,7 +15361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   changeTime: 4
-  sceneName: Scene1
+  transition: {fileID: 1683611258}
+  transitionTime: 1
 --- !u!4 &1488867504
 Transform:
   m_ObjectHideFlags: 0
@@ -15422,6 +15423,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1683611258 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 879915632, guid: aa104cb8e720a7a418e67dd4bbc9f0c3, type: 3}
+  m_PrefabInstance: {fileID: 336559575}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1721013020
 GameObject:
   m_ObjectHideFlags: 0
