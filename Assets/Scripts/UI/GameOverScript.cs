@@ -6,15 +6,30 @@ using UnityEngine.SceneManagement;
 public class GameOverScript : MonoBehaviour
 {
     public Animator transition;
+    private VolumeControler volume;
     public float transitionTime = 1f;
     public Animator btn1, btn2, gameover;
-    private bool isOn = true;
+    [HideInInspector] public bool isOn = true;
+
+    private void Start()
+    {
+        volume = GameObject.Find("BGMusic").GetComponent<VolumeControler>();
+    }
 
     private void Update()
     {
         btn1.SetBool("isOn", isOn);
         btn2.SetBool("isOn", isOn);
         gameover.SetBool("isOn", isOn);
+
+        if (isOn)
+        {
+            volume.FadeOut();
+        } 
+        else
+        {
+            volume.FadeIn();
+        }
     }
 
     public void Setup()

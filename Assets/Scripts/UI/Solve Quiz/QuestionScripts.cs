@@ -34,13 +34,14 @@ public class QuestionScripts : MonoBehaviour
     #region Others
     [HideInInspector] public bool isSolving = false;
     [HideInInspector] public float correctAnswer;
+    [HideInInspector] public bool correct = false;
+    [HideInInspector] public float savedNumber = 0f;
     #endregion
 
     private string question;
 
     private void Start()
     {
-        counter = duration;
         stopTimer = false;
         timerBar.maxValue = duration;
         timerBar.value = duration;
@@ -48,48 +49,23 @@ public class QuestionScripts : MonoBehaviour
 
     public void UpdateQuiz()
     {
-        if (isSolving && !wasSaved)
+        if (isSolving)
         {
             Timer();
-        }
-
-        if(wasSaved)
-        {
-            cooldownCounter += Time.deltaTime;
         }
     }
 
     public void Setup()
     {
-        if (wasSaved)
-        {
-            if(cooldownCounter >= cooldownQuizTime)
-            {
-                wasSaved = false;
-                cooldownCounter = 0f;
-                CreateQuestion();
-                SelectingRightButton();
-                gameObject.SetActive(true);
-                questionText.text = question;
-                Time.timeScale = 0.05f;
-                Time.fixedDeltaTime = Time.timeScale * 0.01f;
-                isSolving = true;
-            }
-            else
-            {
-                Wrong();
-            }
-        } 
-        else
-        {
-            CreateQuestion();
-            SelectingRightButton();
-            gameObject.SetActive(true);
-            questionText.text = question;
-            Time.timeScale = 0.05f;
-            Time.fixedDeltaTime = Time.timeScale * 0.01f;
-            isSolving = true;
-        }
+        counter = duration;
+        CreateQuestion();
+        SelectingRightButton();
+        gameObject.SetActive(true);
+        questionText.text = question;
+        Time.timeScale = 0.05f;
+        Time.fixedDeltaTime = Time.timeScale * 0.01f;
+        isSolving = true;
+        correct = false;
     }
 
     public void Correct()
@@ -99,11 +75,14 @@ public class QuestionScripts : MonoBehaviour
         isSolving = false;
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
+        correct = true;
+        savedNumber += 1f;
     }
 
     public void Wrong()
     {
         isSolving = false;
+        correct = false;
         gameObject.SetActive(false);
         ui.SetActive(false);
         deathBG.SetActive(true);
@@ -111,6 +90,7 @@ public class QuestionScripts : MonoBehaviour
         playerController.isDead = true;
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
+        savedNumber = 0f;
     }
 
     public void CreateQuestion()
@@ -174,7 +154,7 @@ public class QuestionScripts : MonoBehaviour
 
     private void Timer()
     {
-        counter -= 0.016f;
+        counter -= 0.0024f + (savedNumber / 600f);
 
         int minutes = Mathf.FloorToInt(counter / 60);
         int seconds = Mathf.FloorToInt(counter - minutes * 60);

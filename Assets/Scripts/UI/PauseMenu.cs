@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
+    private AudioSource bgAudio;
+    private GameObject bg;
     public QuestionScripts question;
     public PlayerController player;
     [HideInInspector] public bool isPaused = false;
@@ -17,6 +19,8 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         pauseMenu.SetActive(false);
+        bg = GameObject.Find("BGMusic");
+        bgAudio = bg.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,12 +28,15 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !question.isSolving && !player.isDead)
         {
+            bgAudio.Pause();
             if (isPaused)
             {
+                bgAudio.UnPause();
                 ResumeGame();
             } 
             else
             {
+                bgAudio.Pause();
                 PauseGame();
             }
         }
@@ -44,6 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        bgAudio.UnPause();
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
@@ -53,6 +61,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         isPaused = false;
+        Destroy(bg);
         StartCoroutine(LoadLevel(0));
     }
 

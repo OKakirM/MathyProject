@@ -140,7 +140,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   currentHealth: 0
   takeDamageImpulse: 10
-  invencibleTime: 2
+  invencibleTime: 1
   ui: {fileID: 0}
   deathBG: {fileID: 0}
   isDead: 0

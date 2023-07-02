@@ -5,6 +5,7 @@ using UnityEngine;
 public class VolumeControler : MonoBehaviour
 {
     public AudioSource bg;
+    public GameOverScript gameover;
 
     // Start is called before the first frame update
     void Start()
