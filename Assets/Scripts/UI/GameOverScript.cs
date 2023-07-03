@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameOverScript : MonoBehaviour
 {
     public Animator transition;
+    private GameObject bgMusic;
     private VolumeControler volume;
     public float transitionTime = 1f;
     public Animator btn1, btn2, gameover;
@@ -13,7 +14,8 @@ public class GameOverScript : MonoBehaviour
 
     private void Start()
     {
-        volume = GameObject.Find("BGMusic").GetComponent<VolumeControler>();
+        bgMusic = GameObject.Find("BGMusic");
+        volume = bgMusic.GetComponent<VolumeControler>();
     }
 
     private void Update()
@@ -46,6 +48,7 @@ public class GameOverScript : MonoBehaviour
 
     public void BackToMenu()
     {
+        Destroy(bgMusic);
         StartCoroutine(LoadLevel(0));
         isOn = false;
     }
