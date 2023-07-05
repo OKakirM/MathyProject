@@ -48,6 +48,13 @@ public class DroneAI : MonoBehaviour
     PhysicsMaterial2D material;
     #endregion
 
+    #region Audio Variables
+    public AudioSource shakingSound;
+    public AudioSource deathSound;
+    public AudioSource talkSound;
+    private bool wasPlayed = false;
+    #endregion
+
     #endregion
 
     // Start is called before the first frame update
@@ -94,6 +101,15 @@ public class DroneAI : MonoBehaviour
             {
                 Physics2D.IgnoreLayerCollision(9, 7, true);
                 StartCoroutine(enemyShake.Shake(.1f, .03f));
+                if (!shakingSound.isPlaying)
+                {
+                    shakingSound.Play();
+                }
+                if (!talkSound.isPlaying && !wasPlayed)
+                {
+                    talkSound.Play();
+                    wasPlayed = true;
+                }
                 destroyCounter += Time.deltaTime;
             }
             else if (enemyHealth.isDead && destroyCounter >= destroyTime)
@@ -101,6 +117,10 @@ public class DroneAI : MonoBehaviour
                 destroyCounter += Time.deltaTime;
                 anim.SetBool("isDead", enemyHealth.isDead);
                 CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
+                if (!deathSound.isPlaying)
+                {
+                    deathSound.Play();
+                }
                 if (destroyCounter >= destroyTime + .4f)
                 {
                     Destroy(gameObject);

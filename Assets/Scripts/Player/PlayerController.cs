@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using EZCameraShake;
 
 public class PlayerController : MonoBehaviour
@@ -25,9 +26,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isDead = false;
     #endregion
 
-    #region Dealing Damage
+    #region Dealing Damage Variables
     [Header("Dealing Damage")]
-    [HideInInspector] public bool isAttacking = false;
     [SerializeField, Range(1f, 50f)] public int damage = 5;
     [SerializeField, Range(1f, 10f)] private float attackImpulse = 3f;
     [SerializeField, Range(0f, 1f)] private float attackDelay = .5f;
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0f, 1f)] public float attackRadius;
     [SerializeField] public LayerMask whatIsDamageble;
     private bool inputAttack;
+    [HideInInspector] public bool isAttacking = false;
     private float attackCounter;
     #endregion
 
@@ -157,6 +158,11 @@ public class PlayerController : MonoBehaviour
             healthBar.SetHealth(currentHealth);
         }
         doQuestion.UpdateQuiz();
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     private void FixedUpdate()

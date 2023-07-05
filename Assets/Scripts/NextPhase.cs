@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NextPhase : MonoBehaviour
 {
@@ -27,6 +28,19 @@ public class NextPhase : MonoBehaviour
                 Destroy(bgMusic);
             }
             levelLoader.LoadNextLevel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (continueMusic)
+            {
+                DontDestroyOnLoad(bgMusic);
+            }
+            else
+            {
+                Destroy(bgMusic);
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

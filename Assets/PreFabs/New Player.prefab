@@ -140,19 +140,19 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   currentHealth: 0
   takeDamageImpulse: 10
-  invencibleTime: 1
+  invencibleTime: 1.5
   ui: {fileID: 0}
   deathBG: {fileID: 0}
   isDead: 0
-  isAttacking: 0
   damage: 15
-  attackImpulse: 3
+  attackImpulse: 4
   attackDelay: 0.55
   attackHitBoxPos: {fileID: 1049944958878369312}
-  attackRadius: 0.5
+  attackRadius: 0.6
   whatIsDamageble:
     serializedVersion: 2
     m_Bits: 512
+  isAttacking: 0
   maxSpeed: 4
   maxAcceleration: 35
   maxAirAcceleration: 20

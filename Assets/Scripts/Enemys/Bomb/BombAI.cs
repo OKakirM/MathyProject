@@ -50,6 +50,13 @@ public class BombAI : MonoBehaviour
     PhysicsMaterial2D material;
     #endregion
 
+    #region Audio Variables
+    public AudioSource shakingSound;
+    public AudioSource deathSound;
+    public AudioSource talkSound;
+    private bool wasPlayed = false;
+    #endregion
+
     #endregion
 
     // Start is called before the first frame update
@@ -114,12 +121,25 @@ public class BombAI : MonoBehaviour
         {
             anim.SetBool("isExplosing", isExploding);
             StartCoroutine(enemyShake.Shake(.1f, .015f));
+            if (!shakingSound.isPlaying)
+            {
+                shakingSound.Play();
+            }
+            if (!talkSound.isPlaying && !wasPlayed)
+            {
+                talkSound.Play();
+                wasPlayed = true;
+            }
             destroyCounter += Time.deltaTime;
 
             if (destroyCounter >= destroyTime)
             {
                 anim.SetBool("isDead", true);
                 CameraShaker.Instance.ShakeOnce(2f, 4f, .1f, 1f);
+                if (!deathSound.isPlaying)
+                {
+                    deathSound.Play();
+                }
                 if (destroyCounter >= destroyTime + .6f)
                 {
                     Destroy(gameObject);
