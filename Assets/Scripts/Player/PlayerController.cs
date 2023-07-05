@@ -158,11 +158,6 @@ public class PlayerController : MonoBehaviour
             healthBar.SetHealth(currentHealth);
         }
         doQuestion.UpdateQuiz();
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
     }
 
     private void FixedUpdate()
