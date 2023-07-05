@@ -145,9 +145,9 @@ MonoBehaviour:
   deathBG: {fileID: 0}
   isDead: 0
   isAttacking: 0
-  damage: 10
+  damage: 15
   attackImpulse: 3
-  attackDelay: 0.8
+  attackDelay: 0.55
   attackHitBoxPos: {fileID: 1049944958878369312}
   attackRadius: 0.5
   whatIsDamageble:

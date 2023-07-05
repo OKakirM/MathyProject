@@ -1329,6 +1329,7 @@ MonoBehaviour:
   isSolving: 0
   correctAnswer: 0
   correct: 0
+  savedNumber: 0
 --- !u!114 &464583108
 MonoBehaviour:
   m_ObjectHideFlags: 0

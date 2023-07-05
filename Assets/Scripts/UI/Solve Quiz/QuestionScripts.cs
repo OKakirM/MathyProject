@@ -154,7 +154,7 @@ public class QuestionScripts : MonoBehaviour
 
     private void Timer()
     {
-        counter -= 0.0024f + (savedNumber / 600f);
+        counter -= 0.012f + (savedNumber / 60f);
 
         int minutes = Mathf.FloorToInt(counter / 60);
         int seconds = Mathf.FloorToInt(counter - minutes * 60);
