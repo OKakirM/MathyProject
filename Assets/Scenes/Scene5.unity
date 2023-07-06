@@ -31230,9 +31230,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: '<b>PERIGO!</b>
+      value: '<b>DANGER!</b>
 
-        Espinhos a frente!'
+        Spikes ahead!'
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name

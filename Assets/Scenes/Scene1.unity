@@ -688,7 +688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Aperte W ou seta pra cima para pular.
+  m_text: Press W or up arrow to jump.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
   m_sharedMaterial: {fileID: 3188018602786722221, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Carregue na tecla S ou seta pra baixo para olhar para baixo.
+  m_text: Press the S or down arrow key to look down.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
   m_sharedMaterial: {fileID: 3188018602786722221, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
@@ -2106,7 +2106,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Para iniciar sua jornada use WASD ou as setas para movimentar-se.
+  m_text: 'To start your journey, use WASD or the arrow keys to move around.
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
   m_sharedMaterial: {fileID: 3188018602786722221, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
@@ -2513,7 +2515,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: Aperte Z, J ou Botao esquerdo do rato para <b>ATACAR</b>!
+      value: Press Z, J or Left Mouse Button to <b>ATTACK</b>!
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -20474,7 +20476,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interaja com objetos com as teclas E, C ou L.
+  m_text: Interact with objects with the E, C or L keys.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
   m_sharedMaterial: {fileID: 3188018602786722221, guid: 62329315c9918ac4bb4a7251ee7b5815, type: 2}
@@ -21269,9 +21271,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: 'Dica:
+      value: 'Tip:
 
-        Slimes sao lentos mas sao super fortes!'
+        Slimes are slow but super strong!
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -22793,6 +22797,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
+      propertyPath: m_text
+      value: I am a sign.
+      objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
       value: Sign

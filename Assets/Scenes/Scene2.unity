@@ -1206,7 +1206,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: Tambem eh possivel usar seu DASH para desviar de inimigos. EXPERIMENTE-O!
+      value: It is also possible to use your DASH to dodge enemies. TRY IT!
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -1618,7 +1618,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: Aperte Shift Esquerdo, X ou K para subir montanhas altas!
+      value: Press Left Shift, X or K to climb high mountains!
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -3062,12 +3062,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: '<b>CUIDADO!</b>
-
-        Espinhos sao perigosos!
-
-        Cair neles
-        eh fatal!'
+      value: "<b>CAUTION!</b>\r\nSpikes are dangerous!\r"
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -21772,7 +21767,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: Tambem eh possivel pular grandes buracos com o seu <B>DASH!</B>
+      value: 'It is also possible to jump over large holes with your <B>DASH!</B>
+
+        
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name

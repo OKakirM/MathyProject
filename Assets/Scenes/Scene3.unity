@@ -1454,7 +1454,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: Para passar de fase sera necessario resolver uma questao!
+      value: To pass the stage you will need to solve a question!
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -1595,9 +1595,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: 'Cuidado com os <b>Drones</b>!
+      value: 'Watch out for the <b>Drones</b>!
 
-        Eles podem voar em sua direcao!'
+        They can fly towards you!'
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
@@ -21234,9 +21234,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5940022233872771346, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_text
-      value: 'De olho nas bombas!
+      value: 'Watch out for the bombs!
 
-        Evite ficar ao lado delas!'
+        Avoid standing next to them!'
       objectReference: {fileID: 0}
     - target: {fileID: 5940022234245380249, guid: d887113356243474dadef44e77cfa1b4, type: 3}
       propertyPath: m_Name
